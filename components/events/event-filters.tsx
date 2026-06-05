@@ -47,8 +47,8 @@ export function EventFilters({
 
       <div className="mt-6 flex flex-wrap gap-2 border-b-2 border-[var(--foreground)] pb-4">
         {[
-          { value: "list", label: "List" },
           { value: "calendar", label: "Calendar" },
+          { value: "list", label: "List" },
           { value: "trending", label: "Trending" },
           { value: "following", label: "Following" },
         ].map((option) => (

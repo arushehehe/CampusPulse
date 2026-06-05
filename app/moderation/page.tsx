@@ -121,11 +121,17 @@ export default async function ModerationPage() {
               className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-sm"
             >
               {event.poster_url && (
-                <div
-                  className="mb-4 aspect-[16/9] rounded-[1.25rem] bg-slate-200 bg-cover bg-center"
-                  style={{ backgroundImage: `url(${event.poster_url})` }}
-                  aria-label={`${event.title} poster`}
-                />
+                <div className="flex justify-center w-full bg-slate-100 dark:bg-slate-900 rounded-[1.25rem] py-4 mb-4">
+                  <div
+                    className="w-full rounded-[1.25rem] bg-slate-200 bg-cover bg-center shadow-md"
+                    style={{ 
+                      backgroundImage: `url(${event.poster_url})`,
+                      aspectRatio: "4/5",
+                      maxWidth: "320px"
+                    }}
+                    aria-label={`${event.title} poster`}
+                  />
+                </div>
               )}
 
               <div className="flex items-center justify-between gap-3">
@@ -189,11 +195,17 @@ export default async function ModerationPage() {
                 className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5"
               >
                 {ingestion.poster_url && (
-                  <div
-                    className="mb-4 aspect-[16/9] rounded-[1.25rem] bg-slate-200 bg-cover bg-center"
-                    style={{ backgroundImage: `url(${ingestion.poster_url})` }}
-                    aria-label="Submitted event poster"
-                  />
+                  <div className="flex justify-center w-full bg-slate-100 dark:bg-slate-900 rounded-[1.25rem] py-4 mb-4">
+                    <div
+                      className="w-full rounded-[1.25rem] bg-slate-200 bg-cover bg-center shadow-md"
+                      style={{ 
+                        backgroundImage: `url(${ingestion.poster_url})`,
+                        aspectRatio: "4/5",
+                        maxWidth: "320px"
+                      }}
+                      aria-label="Submitted event poster"
+                    />
+                  </div>
                 )}
 
                 <div className="flex flex-wrap items-center justify-between gap-3">

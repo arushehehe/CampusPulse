@@ -69,7 +69,7 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
     search: normalizeSingleSearchParam(resolvedSearchParams.search).trim(),
     category: normalizeSingleSearchParam(resolvedSearchParams.category).trim(),
     sourceType: normalizeSingleSearchParam(resolvedSearchParams.source).trim(),
-    mode: normalizeSingleSearchParam(resolvedSearchParams.mode).trim() || "list",
+    mode: normalizeSingleSearchParam(resolvedSearchParams.mode).trim() || "calendar",
     calendarView:
       normalizeSingleSearchParam(resolvedSearchParams.calendarView).trim() || "month",
     dateFrom: normalizeSingleSearchParam(resolvedSearchParams.dateFrom).trim(),
@@ -298,27 +298,24 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
                 <h3 className="editorial-heading mb-6 text-3xl border-b-2 border-[var(--border-color)] pb-2">
                   {group.label}
                 </h3>
-                <div className="grid gap-4">
-                  {group.events.map((event) => (
-                    <Link
-                      key={event.id}
-                      href={`/events/${event.id}`}
-                      className="group flex flex-col sm:flex-row sm:items-center gap-6 bg-transparent py-4 border-b border-[var(--border-color)] hover:border-[var(--foreground)] transition-colors"
-                    >
-                      <span className="w-24 text-lg font-bold text-[var(--accent-blue)] shrink-0">
-                        {new Intl.DateTimeFormat("en-IN", {
-                          hour: "numeric",
-                          minute: "2-digit",
-                        }).format(new Date(event.start_time))}
-                      </span>
-                      <span className="text-2xl font-serif font-bold text-[var(--foreground)] group-hover:text-[var(--accent-red)] transition-colors flex-1">
-                        {event.title}
-                      </span>
-                      <span className="text-xs font-bold uppercase tracking-widest text-[var(--ink-700)] dark:text-gray-400 border border-[var(--border-color)] px-3 py-1">
-                        {event.category}
-                      </span>
-                    </Link>
-                  ))}
+                <div className="flex flex-col gap-12">
+                  {group.events.map((event) => {
+                    const totalRsvps = Object.values(rsvpStateByEvent.get(event.id)?.counts ?? createEmptyRsvpCounts()).reduce((a, b) => a + b, 0);
+                    return (
+                      <EventCard
+                        key={event.id}
+                        id={event.id}
+                        title={event.title}
+                        category={event.category}
+                        date={formatEventDateRange(event.start_time, event.end_time)}
+                        location={event.location || "TBA"}
+                        posterUrl={event.poster_url || undefined}
+                        isPaid={event.is_paid}
+                        price={event.price || undefined}
+                        rsvps={totalRsvps}
+                      />
+                    );
+                  })}
                 </div>
               </div>
             ))}

@@ -41,19 +41,26 @@ export function EventCard({
       </div>
 
       {/* Magazine Cover / Instagram Image */}
-      <Link href={`/events/${id}`} className="block relative aspect-[4/5] sm:aspect-[21/9] w-full overflow-hidden bg-slate-200 dark:bg-slate-800">
-        {posterUrl ? (
-          <img
-            src={posterUrl}
-            alt={title}
-            className="h-full w-full object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center font-serif text-8xl font-bold opacity-5">
-            CP.
-          </div>
-        )}
-      </Link>
+      <div className="flex justify-center w-full bg-slate-50 dark:bg-[#121212] py-4 border-y border-[var(--border-color)]">
+        <Link 
+          href={`/events/${id}`} 
+          className="block relative w-full overflow-hidden bg-slate-200 dark:bg-slate-800 shadow-md"
+          style={{ aspectRatio: "4/5", maxWidth: "480px" }}
+        >
+          {posterUrl ? (
+            <img
+              src={posterUrl}
+              alt={title}
+              className="h-full w-full object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center font-serif text-8xl font-bold opacity-5">
+              CP.
+            </div>
+          )}
+        </Link>
+      </div>
 
       {/* Action Bar (Instagram style) */}
       <div className="flex items-center justify-between py-4 border-b border-[var(--border-color)]">

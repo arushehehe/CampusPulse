@@ -152,11 +152,17 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
 
           <article className="glass-card overflow-hidden">
             {event.poster_url && (
-              <div
-                className="aspect-[21/9] w-full border-b-4 border-[var(--foreground)] bg-slate-200 bg-cover bg-center grayscale transition-all duration-700 hover:grayscale-0 hover:scale-105"
-                style={{ backgroundImage: `url(${event.poster_url})` }}
-                aria-label={`${event.title} poster`}
-              />
+              <div className="flex justify-center w-full bg-slate-50 dark:bg-[#121212] py-6 border-b-4 border-[var(--foreground)]">
+                <div
+                  className="w-full bg-slate-200 bg-cover bg-center grayscale transition-all duration-700 hover:grayscale-0 hover:scale-105 shadow-lg"
+                  style={{ 
+                    backgroundImage: `url(${event.poster_url})`,
+                    aspectRatio: "4/5",
+                    maxWidth: "480px"
+                  }}
+                  aria-label={`${event.title} poster`}
+                />
+              </div>
             )}
 
             <div className="p-8 lg:p-12">
