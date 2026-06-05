@@ -1,64 +1,100 @@
-import Image from "next/image";
+import Link from "next/link";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { createClient } from "@/app/utils/supabase/server";
+import { Navbar } from "@/components/layout/Navbar";
+import { Button } from "@/components/ui/Button";
 
-export default function Home() {
+export default async function Home() {
+  const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user) {
+    redirect("/events");
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="min-h-screen bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] bg-[var(--background)]">
+      <Navbar user={user} />
+      
+      <main className="container mx-auto px-6 py-12 lg:py-24 animate-fade-in-up">
+        {/* Newspaper Masthead Style Hero */}
+        <div className="editorial-border mb-16 flex flex-col items-center justify-center text-center space-y-6">
+          <div className="inline-block border border-[var(--foreground)] bg-[var(--background)] px-4 py-1 text-xs font-bold uppercase tracking-[0.2em]">
+            Vol. 1 — The Daily Pulse
+          </div>
+          
+          <h1 className="editorial-heading max-w-4xl text-6xl leading-[1.1] sm:text-7xl lg:text-8xl">
+            THE CAMPUS EVENT <br />
+            <span className="italic text-[var(--accent-red)] relative inline-block">
+              CHRONICLE
+              <span className="absolute -bottom-2 left-0 w-full border-b-4 border-[var(--accent-red)] transform -rotate-1"></span>
+            </span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          
+          <p className="max-w-2xl text-lg font-medium leading-relaxed text-[var(--ink-700)] dark:text-gray-300 mt-6">
+            IITG students can sign in, discover live events, RSVP, submit
+            community activity, follow organizers, and export campus calendars
+            from one definitive source.
           </p>
+          
+          <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
+            <Link href="/login">
+              <Button size="lg" className="uppercase tracking-wider font-bold">
+                Read the feed →
+              </Button>
+            </Link>
+            <Link href="/login">
+              <Button variant="outline" size="lg" className="uppercase tracking-wider font-bold shadow-[4px_4px_0px_var(--foreground)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all">
+                Submit an event
+              </Button>
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Bento Grid Features (Scrapbook feel) */}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {/* Card 1 */}
+          <section className="glass-card group p-8 hover-lift relative overflow-hidden bg-white dark:bg-[#1a1a1a]">
+            <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[var(--accent-blue)] opacity-10 transition-transform duration-500 group-hover:scale-150"></div>
+            <span className="text-xs font-bold uppercase tracking-widest text-[var(--ink-700)] dark:text-gray-400">Section I</span>
+            <h2 className="editorial-heading mt-4 text-3xl">Exclusive Authentication.</h2>
+            <div className="mt-4 h-1 w-12 bg-[var(--foreground)]"></div>
+            <p className="mt-4 text-[var(--ink-800)] dark:text-gray-300">
+              Supabase magic link with strict IITG domain restriction. Protected routes keep the riff-raff out.
+            </p>
+          </section>
+
+          {/* Card 2 */}
+          <section className="glass-card group p-8 hover-lift relative overflow-hidden bg-[var(--foreground)] text-[var(--background)]">
+            <span className="text-xs font-bold uppercase tracking-widest text-gray-400">Section II</span>
+            <h2 className="editorial-heading mt-4 text-3xl text-white">Event Domain.</h2>
+            <div className="mt-4 h-1 w-12 bg-[var(--accent-red)]"></div>
+            <p className="mt-4 text-gray-300">
+              Organizer roles, real-time submissions, dynamic editing, RSVPs, stars, and powerful following mechanisms.
+            </p>
+            <div className="absolute bottom-0 right-0 p-4 font-serif text-8xl opacity-10">2</div>
+          </section>
+
+          {/* Card 3 */}
+          <section className="glass-card group p-8 hover-lift relative overflow-hidden bg-white dark:bg-[#1a1a1a] md:col-span-2 lg:col-span-1">
+            <span className="text-xs font-bold uppercase tracking-widest text-[var(--ink-700)] dark:text-gray-400">Section III</span>
+            <h2 className="editorial-heading mt-4 text-3xl">Intelligent Pipelines.</h2>
+            <div className="mt-4 h-1 w-12 bg-[var(--foreground)]"></div>
+            <p className="mt-4 text-[var(--ink-800)] dark:text-gray-300">
+              Raw links, high-res posters, submitter notes, admin extraction tools, and a complete audit history for ultimate transparency.
+            </p>
+          </section>
         </div>
+        
+        <footer className="mt-24 border-t-2 border-dashed border-[var(--foreground)] py-8 text-center">
+          <p className="font-serif italic text-[var(--ink-700)] dark:text-gray-400">
+            Printed digitally in 2026. CampusPulse. All rights reserved.
+          </p>
+        </footer>
       </main>
     </div>
   );
