@@ -126,8 +126,8 @@ See `docs/database-schema.md` for a short schema guide and `docs/llm-prompts.md`
 
 ## Provider-Backed Features
 
-- LLM vision extraction: connect an LLM/OCR provider to `event_ingestions` and `scraped_raw`, then write drafts through `/api/event-ingestions/extract`.
-- Automated scraping: Supabase cron now enqueues due `scraping_jobs` every 6 hours. A scraper worker should read `/api/scraping-jobs`, write raw rows through `/api/scraping-runs`, and mark jobs complete or failed.
-- Push notifications: use `push_subscriptions` with a web-push worker and VAPID keys. In-app notifications are already stored in `notifications`.
-- Semantic search and deduplication: pgvector tables/RPCs are in place. An embedding worker should process `/api/embedding-jobs` and write vectors through `/api/event-embeddings`.
-- Deployment: configure Supabase environment variables on Vercel and apply `supabase/schema.sql` before first production login.
+- **LLM vision extraction**: The `workers/intake-worker.ts` script is set up to poll `event_ingestions`. Add an OpenAI API key to `.env.local` to autonomously write structured drafts through Supabase.
+- **Automated scraping**: Supabase cron now enqueues due `scraping_jobs` every 6 hours. A scraper worker should read `/api/scraping-jobs`, write raw rows through `/api/scraping-runs`, and mark jobs complete or failed.
+- **Push notifications**: use `push_subscriptions` with a web-push worker and VAPID keys. In-app notifications are already stored in `notifications`.
+- **Semantic search and deduplication**: pgvector tables/RPCs are in place. The `workers/embedding-worker.ts` script securely polls jobs and generates 1536-dimensional embeddings. Add your API key to activate semantic search.
+- **Deployment**: configure Supabase environment variables on Vercel and apply `supabase/schema.sql` before first production login.
