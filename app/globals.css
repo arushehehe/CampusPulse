@@ -1,26 +1,91 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-playfair);
+
+  /* Editorial color palette */
+  --color-paper-50: #fcfbf9;
+  --color-paper-100: #f4f1eb;
+  --color-paper-200: #e8e2d5;
+  --color-ink-900: #1a1a1a;
+  --color-ink-800: #2d2d2d;
+  --color-ink-700: #404040;
+  --color-accent-red: #d32f2f;
+  --color-accent-blue: #1976d2;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root {
+  --background: var(--color-paper-50);
+  --foreground: var(--color-ink-900);
+  --card-bg: #ffffff;
+  --border-color: var(--color-paper-200);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Deep, rich dark mode for editorial feel */
+    --background: #121212;
+    --foreground: #f4f1eb;
+    --card-bg: #1e1e1e;
+    --border-color: #333333;
   }
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Custom Utilities for Glassmorphism & Animations */
+@layer utilities {
+  .glass {
+    @apply bg-white/70 dark:bg-black/50 backdrop-blur-md border border-white/20 dark:border-white/10;
+  }
+  
+  .glass-card {
+    @apply bg-white/80 dark:bg-[#1e1e1e]/80 backdrop-blur-lg border border-[var(--border-color)] shadow-sm;
+  }
+
+  /* Newspaper aesthetic elements */
+  .editorial-border {
+    @apply border-y-2 border-[var(--foreground)] py-4;
+  }
+  
+  .editorial-heading {
+    @apply font-serif tracking-tight font-bold text-[var(--foreground)];
+  }
+}
+
+/* Micro-animations */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes subtle-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.animate-float {
+  animation: subtle-float 4s ease-in-out infinite;
+}
+
+/* Smooth transitions */
+.hover-lift {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.15);
 }
