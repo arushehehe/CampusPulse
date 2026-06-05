@@ -33,6 +33,9 @@ CampusPulse is a Next.js + Supabase campus event hub for IIT Guwahati. The curre
 - pgvector event embeddings with embedding job queue and semantic-search RPC
 - Supabase cron queue for six-hour scraping jobs
 - Database-ready push subscriptions, event series, scraping sources, and scraped raw rows
+- Editorial/scrapbook themed UI with focus-mode toggles and highly animated modern typography
+- Dedicated profile management page for privacy settings and starred events
+- Headless background worker scripts (`workers/`) for autonomous LLM extraction and embedding generation
 
 ## Tech Stack
 
@@ -76,6 +79,7 @@ Profiles are created as `student` on first login. Promote users manually in Supa
 ## Important Routes
 
 - `/login`: magic-link sign in
+- `/profile`: user profile management, privacy settings, and starred events
 - `/events`: authenticated event feed, filters, submission form, RSVPs
 - `/events/[id]`: event details, RSVP controls, and authorized editing
 - `/moderation`: admin-only pending submission queue
